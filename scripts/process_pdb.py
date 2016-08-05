@@ -8,6 +8,9 @@ from Bio import PDB
 parser = argparse.ArgumentParser()
 parser.add_argument('raw_pdb_dir', help='directory with raw (unprocessed) '
                     'PDB-structures')
+parser.add_argument('pfam_domain', help='Pfam domain of interest. Important '
+                    'for the program to know which chains to analyse in '
+                    'case of complex structures.')
 parser.add_argument('sifts_chain_pfam', help='SIFTS-file "pdb_chain_pfam.csv" for '
                     'finding chains withing the PDB-structures which contain '
                     'the Pfam-domain of interest')
@@ -41,7 +44,7 @@ def select_chain(filename, domain_of_int):
     """selects only one chain per structure; chain has to have domain of
     interest (and this domain only)"""
     pdb_id = filename.split('.')[0]
-    sub = chain_pfam[(chain_pfam.PDB == pdb_id) & (chain_pfam.PFAM_ID == 'PF00071')]
+    sub = chain_pfam[(chain_pfam.PDB == pdb_id) & (chain_pfam.PFAM_ID == domain_of_int)]
     chains_of_interest = list(sub.CHAIN)
 #    print '\n%s' % pdb_id
 #    print 'all chains: %s' % list(chain_pfam[(chain_pfam.PDB == pdb_id)].CHAIN)
@@ -75,7 +78,7 @@ chains = []
 structures = []
 print('PDB-ID\tchain selected for analysis')
 for pdb_file in os.listdir(args.raw_pdb_dir):
-    chain = select_chain(pdb_file, 'PF00071')
+    chain = select_chain(pdb_file, args.pfam_domain)
     print "%s\t%s" % (pdb_file, chain)
     if chain != None:  # if chain with Pfam-domain of interest found
         chains.append(chain)

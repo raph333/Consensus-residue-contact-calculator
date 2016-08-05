@@ -1,13 +1,19 @@
-RAW_PDB_FILES_DIR='data/raw_pdb_files'
+RAW_PDB_FILES_DIR=$1
+REFERENCE_ALIGNMENT=$2
+REFERENCE_STRUCTURE=$3
+PFAM_DOMAIN_OF_INTEREST=$4
 SIFTS_PDB_CHAIN_PFAM='data/pdb_chain_pfam.csv'
-REFERENCE_ALIGNMENT='data/ras_reference_alignment.fa'
-REFERENCE_STRUCTURE='1g16'
 ATOMIC_DISTANCE_CUTOFF=5
 #RESULTS_DIR='results'
 #PROCESSED_PDB_FILES_DIR='results/processed_pdb_files'
 
+printf 'INPUT DATA:\n'
+printf 'PDB-files in directory %s\n' $RAW_PDB_FILES_DIR
+printf 'reference alignment: %s\n' $REFERENCE_ALIGNMENT
+printf 'referenct structure: %s\n' $REFERENCE_STRUCTURE
+printf 'Pfam domain of interest: %s\n\n' $PFAM_DOMAIN_OF_INTEREST
 
-printf '\nCheck input data (PDB-files, reference alignment, SIFTS-mapping-file):\n'
+#printf '\nCheck input data (PDB-files, reference alignment, SIFTS-mapping-file):\n'
 ipython scripts/check_data.py data/raw_pdb_files/ data/ras_reference_alignment.fa data/pdb_chain_pfam.csv 2> /dev/null
 # 2> /dev/null: redirect output to null device (output not printed)
 if [ $? -eq 0 ]; then 
@@ -35,7 +41,7 @@ mkdir results
 
 printf '\nPrepare PDB-files for residue contact calculation:\n'
 printf '(extract only one chain, which contains the Pfam-domain of interest, from each input PDB-file and write it to a new PDB-file)\n'
-ipython scripts/process_pdb.py $RAW_PDB_FILES_DIR $SIFTS_PDB_CHAIN_PFAM results/processed_pdb_files 2> /dev/null
+ipython scripts/process_pdb.py $RAW_PDB_FILES_DIR $PFAM_DOMAIN_OF_INTEREST $SIFTS_PDB_CHAIN_PFAM results/processed_pdb_files 2> /dev/null
 if [ $? -eq 0 ]; then 
 	printf 'PDB-files prepared\n'
 else
