@@ -1,10 +1,32 @@
 # bash runall.sh data/raw_pdb_files data/ras_reference_alignment.fa 1g16 PF00071
 
-RAW_PDB_FILES_DIR=$1
-REFERENCE_ALIGNMENT=$2
-REFERENCE_STRUCTURE=$3
-PFAM_DOMAIN_OF_INTEREST=$4
-SIFTS_PDB_CHAIN_PFAM='data/pdb_chain_pfam.csv'  # file from https://www.ebi.ac.uk/pdbe/docs/sifts/quick.html, update if necessary
+if [ $1 == '-h'  ] || [ $1 == '--help' ] || [ $# -ne 5 ]; then
+  printf 'Usage: bash %s PDB-files-directory reference-alignment reference-structure-PDB-ID Pfam-domain-ID SIFTS-file\n' $0
+  printf '\npositional arguments:
+  PDB-files-directory  Directory with PDB-structures for calculation of
+                       residue contact network.
+  reference-alignment  Alignment of the sequences of the structures for which
+                       residue contact networks were created. See the
+                       documentation for information about the requirements
+                       of such an alignment.
+  reference_structure  For all residues, the equivalent residues (PDB-numbering)
+                       of the reference structure will be provided.
+                       Just provide the PDB-ID of your favourite structure
+                       of the dataset.
+  Pfam-domain-ID       Pfam domain of interest. Important for the program to
+                       know which chains to analyse in case of complex
+                       structures.
+  sifts_chain_pfam     SIFTS-file "pdb_chain_pfam.csv" for finding chains
+                       withing the PDB-structures which contain the Pfam-
+                       domain of interest.\n'
+  exit 0
+fi
+
+RAW_PDB_FILES_DIR=$1  # e.g. path/to/my_pdb_files
+REFERENCE_ALIGNMENT=$2  # e.g. path/to/my_alignment.fa
+REFERENCE_STRUCTURE=$3  # e.g. 1g16
+PFAM_DOMAIN_OF_INTEREST=$4  # e.g. PF00071
+SIFTS_PDB_CHAIN_PFAM=$5  # file from https://www.ebi.ac.uk/pdbe/docs/sifts/quick.html, update if necessary
 ATOMIC_DISTANCE_CUTOFF=5  # two residues are considered to form a contact if any two atoms are witing 5 Angstrom of each other
 # Set the value according to your preferences
 
@@ -12,7 +34,8 @@ printf 'INPUT DATA:\n'
 printf 'PDB-files in directory %s\n' $RAW_PDB_FILES_DIR
 printf 'reference alignment: %s\n' $REFERENCE_ALIGNMENT
 printf 'referenct structure: %s\n' $REFERENCE_STRUCTURE
-printf 'Pfam domain of interest: %s\n\n' $PFAM_DOMAIN_OF_INTEREST
+printf 'Pfam domain of interest: %s\n' $PFAM_DOMAIN_OF_INTEREST
+printf 'File for identification of PDB-chains with Pfam domain of interest: %s\n\n' $SIFTS_PDB_CHAIN_PFAM
 
 #printf '\nCheck input data (PDB-files, reference alignment, SIFTS-mapping-file):\n'
 ipython scripts/check_data.py $RAW_PDB_FILES_DIR/ $REFERENCE_ALIGNMENT $SIFTS_PDB_CHAIN_PFAM 2> /dev/null
