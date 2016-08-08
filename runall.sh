@@ -1,4 +1,4 @@
-# bash runall.sh data/raw_pdb_files data/ras_reference_alignment.fa 1g16 PF00071
+# bash runall.sh data/raw_pdb_files data/ras_reference_alignment.fa 1g16 PF00071 data/pdb_chain_pfam.csv
 
 if [ $1 == '-h'  ] || [ $1 == '--help' ] || [ $# -ne 5 ]; then
   printf 'Usage: bash %s PDB-files-directory reference-alignment reference-structure-PDB-ID Pfam-domain-ID SIFTS-file\n' $0
