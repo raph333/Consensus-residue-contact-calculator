@@ -1,11 +1,12 @@
+# bash runall.sh data/raw_pdb_files data/ras_reference_alignment.fa 1g16 PF00071
+
 RAW_PDB_FILES_DIR=$1
 REFERENCE_ALIGNMENT=$2
 REFERENCE_STRUCTURE=$3
 PFAM_DOMAIN_OF_INTEREST=$4
-SIFTS_PDB_CHAIN_PFAM='data/pdb_chain_pfam.csv'
-ATOMIC_DISTANCE_CUTOFF=5
-#RESULTS_DIR='results'
-#PROCESSED_PDB_FILES_DIR='results/processed_pdb_files'
+SIFTS_PDB_CHAIN_PFAM='data/pdb_chain_pfam.csv'  # file from https://www.ebi.ac.uk/pdbe/docs/sifts/quick.html, update if necessary
+ATOMIC_DISTANCE_CUTOFF=5  # two residues are considered to form a contact if any two atoms are witing 5 Angstrom of each other
+# Set the value according to your preferences
 
 printf 'INPUT DATA:\n'
 printf 'PDB-files in directory %s\n' $RAW_PDB_FILES_DIR
@@ -14,7 +15,7 @@ printf 'referenct structure: %s\n' $REFERENCE_STRUCTURE
 printf 'Pfam domain of interest: %s\n\n' $PFAM_DOMAIN_OF_INTEREST
 
 #printf '\nCheck input data (PDB-files, reference alignment, SIFTS-mapping-file):\n'
-ipython scripts/check_data.py data/raw_pdb_files/ data/ras_reference_alignment.fa data/pdb_chain_pfam.csv 2> /dev/null
+ipython scripts/check_data.py $RAW_PDB_FILES_DIR/ $REFERENCE_ALIGNMENT $SIFTS_PDB_CHAIN_PFAM 2> /dev/null
 # 2> /dev/null: redirect output to null device (output not printed)
 if [ $? -eq 0 ]; then 
 	printf 'Data-check: successful.\nStarting analysis...\n'
