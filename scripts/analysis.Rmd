@@ -1,10 +1,10 @@
 ---
-title: "Automatically generated report of the consensus residue contact network"
 author: "Raphael Peer"
 date: "29/09/2015"
 output: html_document
-toc: yes
 ---
+
+# Automatically generated report of the consensus residue contact network
 
 ---
 
@@ -143,3 +143,12 @@ g <- ggplot(data=df) +
 g
 ```
 
+
+# Recommended literature
+
+For a good overview about the method of residue contact networks, please refer this review and the references therein:  
+Lesley H. Greene. “Protein structure networks”. Briefings in Functional Genomics 11.6 (2012), pp. 469–478. DOI : 10.1093/bfgp/els039
+
+An interesting example of how to use consensus residue contact networks is presented in this paper:  
+Tilman Flock et al. “Universal allosteric mechanism for G-alpha activation by GPCRs.” Nature
+524.7564 (2015), pp. 173–179. DOI : 10.1038/nature14663.

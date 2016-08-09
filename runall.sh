@@ -1,4 +1,5 @@
-# bash runall.sh data/raw_pdb_files data/ras_reference_alignment.fa 1g16 PF00071 data/pdb_chain_pfam.csv
+# execute runall.sh example:
+# bash runall.sh data/raw_pdb_files data/ras_reference_alignment.fa data/pdb_chain_pfam.csv PF00071 1g16
 
 if [ $1 == '-h'  ] || [ $1 == '--help' ] || [ $# -ne 5 ]; then
   printf 'Usage: bash %s PDB-files-directory reference-alignment reference-structure-PDB-ID Pfam-domain-ID SIFTS-file\n' $0
@@ -60,11 +61,13 @@ if [ -d "results" ]; then
 		exit 1
 	fi
 fi
-mkdir results
+mkdir results  # create output directory
 
 
 printf '\nPrepare PDB-files for residue contact calculation:\n'
 printf '(extract only one chain, which contains the Pfam-domain of interest, from each input PDB-file and write it to a new PDB-file)\n'
+echo command:
+echo scripts/process_pdb.py $RAW_PDB_FILES_DIR $PFAM_DOMAIN_OF_INTEREST $SIFTS_PDB_CHAIN_PFAM results/processed_pdb_files
 ipython scripts/process_pdb.py $RAW_PDB_FILES_DIR $PFAM_DOMAIN_OF_INTEREST $SIFTS_PDB_CHAIN_PFAM results/processed_pdb_files 2> /dev/null
 if [ $? -eq 0 ]; then 
 	printf 'PDB-files prepared\n'
