@@ -9,26 +9,26 @@ if [ $1 == '-h'  ] || [ $1 == '--help' ] || [ $# -ne 5 ]; then
                        residue contact networks were created. See the
                        documentation for information about the requirements
                        of such an alignment.
+  sifts_chain_pfam     SIFTS-file "pdb_chain_pfam.csv" for finding chains
+                       withing the PDB-structures which contain the Pfam-
+                       domain of interest.
   reference_structure  For all residues, the equivalent residues (PDB-numbering)
                        of the reference structure will be provided.
                        Just provide the PDB-ID of your favourite structure
                        of the dataset.
   Pfam-domain-ID       Pfam domain of interest. Important for the program to
                        know which chains to analyse in case of complex
-                       structures.
-  sifts_chain_pfam     SIFTS-file "pdb_chain_pfam.csv" for finding chains
-                       withing the PDB-structures which contain the Pfam-
-                       domain of interest.\n'
+                       structures.\n'
   exit 0
 fi
 
 RAW_PDB_FILES_DIR=$1  # e.g. path/to/my_pdb_files
 REFERENCE_ALIGNMENT=$2  # e.g. path/to/my_alignment.fa
-REFERENCE_STRUCTURE=$3  # e.g. 1g16
+SIFTS_PDB_CHAIN_PFAM=$3  # file from https://www.ebi.ac.uk/pdbe/docs/sifts/quick.html, update if necessary
 PFAM_DOMAIN_OF_INTEREST=$4  # e.g. PF00071
-SIFTS_PDB_CHAIN_PFAM=$5  # file from https://www.ebi.ac.uk/pdbe/docs/sifts/quick.html, update if necessary
+REFERENCE_STRUCTURE=$5  # e.g. 1g16
 ATOMIC_DISTANCE_CUTOFF=5  # two residues are considered to form a contact if any two atoms are witing 5 Angstrom of each other
-# Set the value according to your preferences
+# SET VALUE ACCORDING TO YOUR PREFERENCES
 
 printf 'INPUT DATA:\n'
 printf 'PDB-files in directory %s\n' $RAW_PDB_FILES_DIR
