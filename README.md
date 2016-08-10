@@ -1,6 +1,13 @@
 # Consensus residue contact calculator
 
 
+## Why analyse large numbers of protein structures?
+
+More than 100,000 protein structures have been solved experimentally and deposited in the public available protein data bank (PDB). The growing number of publicly available protein structures provides a wealth of information for structural biologists. However, analysing large numbers of structures is computationally challenging. While an impressive selection computational tools is freely available for analysis of single protein structures, applying these tools in large scale analysis of protein structures (referred to as systems structural biology) requires extensive experience in bioinformatics. The availability of easy-to-use structural biology tools would enable structural biologists to better use the ever-growing wealth of structural data in the protein data bank (PDB) - the result of millions of working hours of highly skilled scientists. With this in mind, the software at hand was created.
+
+An alternative to the usual representation of a protein as coordinates of atoms in three dimensional space is to represent proteins as networks of contacting residues (amino acids). Residue contact networks (RCNs) define residues as nodes and contacts between residues as edges in the network. In comparison to the 3D representation, RCNs are more suited to large scale computational analysis. The software at hand uses this advantage to compare RCNs across proteins of a given protein family. Thus, it allows to extract common features from any number of related protein structures (from just a few to several hundreds).
+
+
 ## What does this software do?
 
 The program calculates residue contact networks for a number of related protein structures from the protein data base (PDB) provided by the user. Furthermore, for every residue contact, the software determines which fraction of structures have an equivalent contact. In order to identify common residue contacts, the protein structures provided by the user have to be related (The software will finish either way but won't find any common residue contacts if unrelated protein structures are provided). In order to identify structurally equivalent residues, the user has to provide an alignment of the sequences of the protein structures.
@@ -20,7 +27,7 @@ Tilman Flock et al. “Universal allosteric mechanism for G-alpha activation by 
 
 The program was developed and has been tested on Linux. It should work on any Linux-distribution.
 
-Before running the program, please make sure you have the following dependencies installed on your computer:
+Before running the program, please make sure you have the following software installed on your computer:
 
 * Python version 2.7 or newer
 * IPython
@@ -62,7 +69,7 @@ Please make sure to provide the arguments in this order:
 2. path to reference alignment in fasta format (see previous section)  
 3. path to file for Pfam-domain and PDB-chain cross-referencing from the SIFTS-database (see previous section)  
 4. Pfam-domain-ID of interest (e.g. PF00071): Argument is required to automatically identify the relevant part of the structures. For instance, in complex structures, only the chain containing the Pfam-domain of interest is used for analysis. Also note that only one chain per PDB-file is used. For instance, if a PDB-file contains multiple chains which contain the Pfam-domain of interest, only the first (alphabetically) is used.  
-5. Reference structure PDB-ID (e.g. 1g16): The positions in the reference alignment are used as a common residue numbering system. However, in most cases researchers have a particular structure of interest. For this reason, the software also provides the PDB-residue-numbers of the equivalent residues in the stucture of interest - referred to as 'reference structure'. Simply provide the PDB-ID of your most interesting structure in the data set.  
+5. reference structure PDB-ID (e.g. 1g16): The positions in the reference alignment are used as a common residue numbering system. However, in most cases researchers have a particular structure of interest. For this reason, the software also provides the PDB-residue-numbers of the equivalent residues in the stucture of interest - referred to as 'reference structure'. Simply provide the PDB-ID of your most interesting structure in the data set.  
 
 Example:  
 bash runall.sh path/to/pdb_files_directory path/to/reference_alignment.fa path/to/pdb_chain_pfam.csv PF00071 1g16
