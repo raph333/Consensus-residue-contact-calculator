@@ -31,14 +31,14 @@ Before running the program, please make sure you have the following dependencies
 
 ## How do I get set up?
 
-1) Download the repository as zip-file from: https://github.com/raph333/Consensus-residue-contact-calculator/releases/  
-2) Unpack the zip-file:  
+1. Download the repository as zip-file from: https://github.com/raph333/Consensus-residue-contact-calculator/releases/  
+2. Unpack the zip-file:  
 unzip Consensus-residue-contact-calculator-x.x  # x.x being the current release number  
-3) Test with example data:  
+3. Test with example data:  
 cd Consensus-residue-contact-calculator-x.x  
 bash runall.sh test_data/raw_pdb_files test_data/ras_reference_alignment.fa 1g16 PF00071  
-4) If the script has finished, inspect the folder 'results' to see what to expect from the analysis. In case of an error, please address follow the instructions provided by the error-message (e.g. install required software).  
-5) Start the script 'runall' with your own data.   
+4. If the script has finished, inspect the folder 'results' to see what to expect from the analysis. In case of an error, please address follow the instructions provided by the error-message (e.g. install required software).  
+5. Start the script 'runall' with your own data.   
 For more detailed instructions, please run  
 bash runall.sh --help  
 or read the next two sections.
@@ -58,11 +58,11 @@ The data provided by the user (see above) is processed in a step-wise manner by 
 
 Please make sure to provide the arguments in this order:
 
-1) path to directory containing (only) the PDB-files to be analysed (see previous section)  
-2) path to reference alignment in fasta format (see previous section)  
-3) path to file for Pfam-domain and PDB-chain cross-referencing from the SIFTS-database (see previous section)  
-4) Pfam-domain-ID of interest (e.g. PF00071): Argument is required to automatically identify the relevant part of the structures. For instance, in complex structures, only the chain containing the Pfam-domain of interest is used for analysis. Also note that only one chain per PDB-file is used. For instance, if a PDB-file contains multiple chains which contain the Pfam-domain of interest, only the first (alphabetically) is used.  
-5) Reference structure PDB-ID (e.g. 1g16): The positions in the reference alignment are used as a common residue numbering system. However, in most cases researchers have a particular structure of interest. For this reason, the software also provides the PDB-residue-numbers of the equivalent residues in the stucture of interest - referred to as 'reference structure'. Simply provide the PDB-ID of your most interesting structure in the data set.  
+1. path to directory containing (only) the PDB-files to be analysed (see previous section)  
+2. path to reference alignment in fasta format (see previous section)  
+3. path to file for Pfam-domain and PDB-chain cross-referencing from the SIFTS-database (see previous section)  
+4. Pfam-domain-ID of interest (e.g. PF00071): Argument is required to automatically identify the relevant part of the structures. For instance, in complex structures, only the chain containing the Pfam-domain of interest is used for analysis. Also note that only one chain per PDB-file is used. For instance, if a PDB-file contains multiple chains which contain the Pfam-domain of interest, only the first (alphabetically) is used.  
+5. Reference structure PDB-ID (e.g. 1g16): The positions in the reference alignment are used as a common residue numbering system. However, in most cases researchers have a particular structure of interest. For this reason, the software also provides the PDB-residue-numbers of the equivalent residues in the stucture of interest - referred to as 'reference structure'. Simply provide the PDB-ID of your most interesting structure in the data set.  
 
 Example:  
 bash runall.sh path/to/pdb_files_directory path/to/reference_alignment.fa path/to/pdb_chain_pfam.csv PF00071 1g16
