@@ -1,3 +1,31 @@
+'''
+------------------------------------------------------------------------------
+AUTHOR: Raphael Peer, raphael1peer@gmail.com
+
+PURPOSE:
+The script prepares the input PDB-files for residue contact calculation.
+
+OUTPUT:
+Processed PDB-files in new directory (inside the directory 'results')
+
+PDB-FILE PREPARATION:
+1) Selection of the relevant chain which contains the Pfam domain of interest.
+If the Pfam domain is not present in the structure, no chain is selected.
+If the Pfam domain is present on multiple chains, the first chain
+(alphabetically) is selected.
+2) Removal of all lines which do not start with 'ATOM', 'TER' or 'END'. This
+includes heteroatoms (HETATM) or anisotropic temperature factors (ANISOU)
+3) Removal of hydrogen atoms (if present)
+
+NOTE:
+The fully automated large scale analysis of protein structures requires
+standardized input data. For instance, most structures in the PDB do not include hydrogen
+atoms (as they were solved with x-ray crystallography). For this reason,
+hydrogen atoms are removed if present to allow comparison with other
+structures.
+------------------------------------------------------------------------------
+'''
+
 import argparse
 import sys
 import os
@@ -20,8 +48,6 @@ try:
 except:
     parser.print_help()
     sys.exit(1)
-
-# file from SIFTS: PDB-chain, Pfam-ID:
 chain_pfam = pd.read_csv(args.sifts_chain_pfam, comment='#')
 
 

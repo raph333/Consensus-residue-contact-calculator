@@ -1,3 +1,25 @@
+'''
+------------------------------------------------------------------------------
+AUTHOR: Raphael Peer, raphael1peer@gmail.com
+
+PURPOSE:
+Calculation of residue contact networks of all structures in the input-
+directory.
+
+OUTPUT:
+csv-file of residue contact networks of all iniput structures.
+Each contact is given in the form 'PDB-ID,residue-A,residue-B'. For instance,
+'1g16,1,42' means, that in structure 1g16, residue 1 contacts residue 42.
+The residues numbers refere to the numbering in the PDB-file.
+
+NOTE:
+A contact is defined if any two atoms of two residues are within a certain
+distance of each other. This value can be set as an optional argument. By
+default, the distnace cutoff is 5 Angstrom (note that no hydrogen atoms are
+present in the input PDB-files).
+------------------------------------------------------------------------------
+'''
+
 import argparse
 import sys
 import os
@@ -30,13 +52,10 @@ def min_atomic_distance(resA, resB):
     OUT: shortest distance between any two atoms'''
     atoms1 = list(resA.get_iterator())
     atoms2 = list(resB.get_iterator())
-    #print "\n\nresidue 1: %s %s: %s" % (resA.id[1], resA.resname, atoms1)
-    #print "residue 2: %s %s: %s" % (resB.id[1], resB.resname, atoms2)
     atomic_dist_matrix = np.zeros((len(atoms1), len(atoms2)), dtype=('f4'))
     for i in range(0, len(atoms1)):
         for j in range(0, len(atoms2)):
             atomic_dist_matrix[i,j] = atoms1[i] - atoms2[j]
-    #print "%s" % atomic_dist_matrix
     return atomic_dist_matrix.min()  # minimal atomic distance
 
 
@@ -49,13 +68,13 @@ def residue_distance_matrix(directory, filename):
     dist_matrix[:] = np.nan
     for i in range(0, len(res_list)):
         for j in range(i, len(res_list)):  # start at i: only half matrix
-            # if the CA-CA distance is above 15A, don't calculate
-            # any to any atom distances: reduces runtime to 1/3
             try:
                 CA_dist = res_list[i]['CA'] - res_list[j]['CA']
                 if CA_dist <= 15:
                     atomic_distance = min_atomic_distance(res_list[i], res_list[j])
                     dist_matrix[i,j] = atomic_distance
+                # if the CA-CA distance is above 15A, don't calculate the
+                # any to any atom distances: reduces runtime to 1/3
             except:  # if residue does not have CA-atom coordinates
                 pass
     return(dist_matrix)
@@ -95,7 +114,7 @@ networks = networks[['pdb_id', 'res_A', 'res_B']]
 networks = networks.sort_index(by=['pdb_id', 'res_A', 'res_B'])
 networks.to_csv('results/raw_networks.csv', index=False)
 
-#end =  time.time()
 print "Number of residue contact networks calcuated: %s" % filecounter
+#end =  time.time()
 #print "Runtime: %s minutes" % round(((end - start) / float(60)), 1)
 

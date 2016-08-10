@@ -1,3 +1,21 @@
+'''
+------------------------------------------------------------------------------
+AUTHOR: Raphael Peer, raphael1peer@gmail.com
+
+PURPOSE:
+1) The script tries to import all python modules required by the python scripts
+of the 'Consensus residuce contact calculator' and exits if one of the modules
+is not installed.
+2) The script checks the validity of the input data provided by the user
+a) PDB-files
+b) reference alignment (in fasta format)
+c) csv-file from the SIFTS-database (which contains a list of pdb-IDs, chains
+and the respective Pfam domain)
+If a problem with the input data is encountered, the an error message is given
+and the script and exits.
+------------------------------------------------------------------------------
+'''
+
 # Check if all python modules required for the pipeline are installed,
 # otherwise exit script:
 print('Checking software requirements:')
@@ -27,11 +45,11 @@ try:
 except:
     parser.print_help()
     sys.exit(1)
-#raw_pdb_dir = '../data/raw_pdb_files'
-#sifts_chain_pfam = '../data/pdb_chain_pfam.csv'
-#ras_reference_alignment = '../data/ras_reference_alignment.fa'
+
 
 def check_pdb_files(pdb_file_dir):
+    '''Try to parse all PDB-files in a directory with Bio.PDB;
+    Exit script if parsing of fails.'''
     print('\nChecking PDB-files in directory "%s":' % pdb_file_dir)
     filecount = 0
     for filename in os.listdir(pdb_file_dir):
@@ -52,6 +70,7 @@ def check_pdb_files(pdb_file_dir):
 
 
 def check_SIFTS_file(sifts_pdb_pfam_file):
+    '''Try to read csv-file with pandas; Exist script if reading fails'''
     print('\nChecking SIFTS-file: %s' % sifts_pdb_pfam_file)
     print('(required to identify PDB-chains with Pfam-domain of interest)')
     try:
@@ -67,6 +86,9 @@ def check_SIFTS_file(sifts_pdb_pfam_file):
 
 
 def check_reference_alignment(reference_alignment, pdb_files_dir):
+    '''Try to read alignment (with Bio.SeqIO); Exit if reading fails;
+    Print warining message (but do not exit) if a structure is not in the
+    alignment'''
     print('\nChecking reference alignment: %s' % reference_alignment)
     try:
         ref_alignment = SeqIO.parse(reference_alignment, 'fasta')
@@ -92,6 +114,7 @@ def check_reference_alignment(reference_alignment, pdb_files_dir):
         print('All structures are present in the reference alignment.')
 
 
+# CHECK INPUT DATA:
 check_pdb_files(args.raw_pdb_dir)
 check_SIFTS_file(args.sifts_chain_pfam)
 check_reference_alignment(args.reference_alignment, args.raw_pdb_dir)
