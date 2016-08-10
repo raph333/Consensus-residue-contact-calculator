@@ -1,7 +1,6 @@
 import argparse
 import sys
 import os
-import numpy as np
 import pandas as pd
 from Bio import PDB
 
@@ -30,8 +29,8 @@ chain_pfam = pd.read_csv(args.sifts_chain_pfam, comment='#')
 if not os.path.exists(args.processed_pdb_dir):
     os.makedirs(args.processed_pdb_dir)
 elif len(os.listdir(args.processed_pdb_dir)) > 0:
-    print "Directory %s is not empty." % args.processed_pdb_dir
-    user_input =  raw_input("Do you want to delete its content?\n(y for yes) ")
+    print 'Directory %s is not empty.' % args.processed_pdb_dir
+    user_input =  raw_input('Do you want to delete its content?\n(y for yes) ')
     if user_input == 'y':
         os.system('rm -f %s/*' % args.processed_pdb_dir)
     else:
@@ -41,8 +40,8 @@ elif len(os.listdir(args.processed_pdb_dir)) > 0:
 
 
 def select_chain(filename, domain_of_int):
-    """selects only one chain per structure; chain has to have domain of
-    interest (and this domain only)"""
+    '''selects only one chain per structure; chain has to have domain of
+    interest (and this domain only'''
     pdb_id = filename.split('.')[0]
     sub = chain_pfam[(chain_pfam.PDB == pdb_id) & (chain_pfam.PFAM_ID == domain_of_int)]
     chains_of_interest = list(sub.CHAIN)
@@ -51,12 +50,12 @@ def select_chain(filename, domain_of_int):
 #    print 'chains of interest: %s' % chains_of_interest
     if len(chains_of_interest) >= 1:
         return chains_of_interest[0]   # return first chain with domain of interest
-    print "WARNING: No chain selected from %s." % pdb_id
+    print 'WARNING: No chain selected from %s.' % pdb_id
 # 4mit and 1u8z are not included in the chain_pfam file.
 # Hence no chains are selected
 
 def extract_chain(in_dir, filename, chain_of_int, out_dir):
-    """saves chain of interest as separate structure"""
+    '''saves chain of interest as separate structure'''
     pdb_id = filename.split('.')[0]
     struct = PDB.PDBParser().get_structure(pdb_id, os.path.join(in_dir, filename))
     io = PDB.PDBIO()
@@ -65,7 +64,7 @@ def extract_chain(in_dir, filename, chain_of_int, out_dir):
 
 
 def clean(directory, filename):
-    """greps only ATOM-lines from pdb, overwrites original file"""
+    '''greps only ATOM, TER or END-lines from pdb, overwrites original file'''
     if not os.path.exists(os.path.join(directory, filename)):
         print 'file %s not found. Script continues.'
         return
@@ -74,24 +73,34 @@ def clean(directory, filename):
     os.system('rm tmp.pdb')
 
 
-chains = []
-structures = []
+def remove_hydrogens(directory, filename):
+    '''Removes all hydrogen atoms from a PDB-file, overwrites original file
+    Note: requires "cleaned" input PDB-file (as it ignores HETATM)'''
+    if not os.path.exists(os.path.join(directory, filename)):
+        print 'file %s not found. Script continues.'
+        return
+    os.system('mv %s tmp.pdb' % os.path.join(directory, filename))  # rename original file
+    os.system('cat tmp.pdb | sed "s/[ \t]*$//" | grep -v "^ATOM.*H$" > %s' % os.path.join(directory, filename))
+    os.system('rm tmp.pdb')
+
+
+selected_chains = pd.DataFrame(columns = ['pdb_id', 'chain'])  # just for info
 print('PDB-ID\tchain selected for analysis')
 for pdb_file in os.listdir(args.raw_pdb_dir):
     chain = select_chain(pdb_file, args.pfam_domain)
     print "%s\t%s" % (pdb_file, chain)
     if chain != None:  # if chain with Pfam-domain of interest found
-        chains.append(chain)
-        structures.append(pdb_file.split('.')[0])
+        selected_chains = selected_chains.append({'pdb_id': pdb_file.split('.')[0],
+                                                  'chain': chain},
+                                                  ignore_index = True)
         extract_chain(args.raw_pdb_dir, pdb_file, chain, args.processed_pdb_dir)
-        #print "Chain %s written to file" % chain
         clean(args.processed_pdb_dir, pdb_file)
-        #print "File cleaned."
+        remove_hydrogens(args.processed_pdb_dir, pdb_file)
 
-df = pd.DataFrame({'pdb_id': structures, 'chainId': chains})
-#df.to_csv('selected_chains.csv', index=False)
+selected_chains.to_csv('results/selected_chains_info.csv', index=False)
 
 print '\nOut of %s raw PDB-files, for %s PDB-files, a chain with the Pfam \
 domain of interst could be extracted and written to a new file in the \
-directory %s' % (len(os.listdir(args.raw_pdb_dir)), len(df), args.processed_pdb_dir)
+directory %s' % (len(os.listdir(args.raw_pdb_dir)), len(selected_chains),
+                 args.processed_pdb_dir)
    

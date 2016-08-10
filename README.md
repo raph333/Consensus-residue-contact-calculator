@@ -7,6 +7,13 @@ More than 100,000 protein structures have been solved experimentally and deposit
 
 An alternative to the usual representation of a protein as coordinates of atoms in three dimensional space is to represent proteins as networks of contacting residues (amino acids). Residue contact networks (RCNs) define residues as nodes and contacts between residues as edges in the network. In comparison to the 3D representation, RCNs are more suited to large scale computational analysis. The software at hand uses this advantage to compare RCNs across proteins of a given protein family. Thus, it allows to extract common features from any number of related protein structures (from just a few to several hundreds).
 
+For a good overview about the method of residue contact networks, please refer this review and the references therein:  
+Lesley H. Greene. “Protein structure networks”. Briefings in Functional Genomics 11.6 (2012), pp. 469–478. DOI : 10.1093/bfgp/els039
+
+An interesting example of how to use consensus residue contact networks is presented in this paper:  
+Tilman Flock et al. “Universal allosteric mechanism for G-alpha activation by GPCRs.” Nature
+524.7564 (2015), pp. 173–179. DOI : 10.1038/nature14663.
+
 
 ## What does this software do?
 
@@ -16,12 +23,6 @@ The user can chose a particular structure of interest. The results show, for eve
 
 Finally, the software automatically generates a report which visualizes the results and can serve as a base for further analysis.
 
-For a good overview about the method of residue contact networks, please refer this review and the references therein:  
-Lesley H. Greene. “Protein structure networks”. Briefings in Functional Genomics 11.6 (2012), pp. 469–478. DOI : 10.1093/bfgp/els039
-
-An interesting example of how to use consensus residue contact networks is presented in this paper:  
-Tilman Flock et al. “Universal allosteric mechanism for G-alpha activation by GPCRs.” Nature
-524.7564 (2015), pp. 173–179. DOI : 10.1038/nature14663.
 
 ## Software requirements
 
@@ -75,6 +76,10 @@ Example:
 bash runall.sh path/to/pdb_files_directory path/to/reference_alignment.fa path/to/pdb_chain_pfam.csv PF00071 1g16
 
 Note: Two residues are considered to form a contact if any two atoms (excluding hydrogen atoms) are within 5 Angstrom of each other. This distance cutuff is defined in the script runall.sh. However, you can easily set the cutoff according to your preferences (the relevant line in the script is highlighted by a comment in capital letters).
+
+## Runtime
+
+The runtime increases linearly with the number of protein structures in the dataset. The runtime of the entire analysis can be expected to be about three minutes for every 50 protein structures in the dataset. For large protein structures (more than 200 amino acids per relevant chain), the runtime will be longer.
 
 
 ## Can I only use parts of the software?
