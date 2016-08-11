@@ -16,6 +16,7 @@
 # The two input files are written by the python scripts 'calculate_networks.py' and 
 # 'map_networks.py', respectively. Further information is provided in the docstring and
 # comments of those scripts.
+# 3) Reference alignment (fasta file): See README-file.
 #
 # OUTPUT:
 # 1) mapped networks csv-file: Contains the same information as the first input file with
@@ -34,13 +35,14 @@
 # the reference structure.)
 # ------------------------------------------------------------------------------------------
 
+# READ INPUT:
 # nw <-  read.csv('../results/raw_networks.csv', stringsAsFactors=F)
 # mapping <- read.csv('../results/mapping.csv', stringsAsFactors=F)
 args <- commandArgs(trailingOnly = TRUE)
 nw <- read.csv(args[[1]], stringsAsFactors=F)
 mapping <- read.csv(args[[2]], stringsAsFactors=F)
 require(Biostrings)
-alignment <- readAAStringSet('data/ras_reference_alignment.fa', 'fasta')
+alignment <- readAAStringSet(args[[3]], 'fasta')
 
 
 require(plyr)

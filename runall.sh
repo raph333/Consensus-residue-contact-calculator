@@ -1,5 +1,5 @@
-# execute runall.sh example:
-# bash runall.sh data/raw_pdb_files data/ras_reference_alignment.fa data/pdb_chain_pfam.csv PF00071 1g16
+# example of how to execute this script:
+# bash runall.sh test_data/raw_pdb_files test_data/ras_reference_alignment.fa test_data/pdb_chain_pfam.csv PF00071 1g16
 
 if [ $1 == '-h'  ] || [ $1 == '--help' ] || [ $# -ne 5 ]; then
   printf 'Usage: bash %s PDB-files-directory reference-alignment reference-structure-PDB-ID Pfam-domain-ID SIFTS-file\n' $0
@@ -98,7 +98,7 @@ else
 fi
 
 printf '\ncalculate consensus network using the single networks and the residue mapping file:\n'
-Rscript scripts/calculate_consensus_network.R results/raw_networks.csv results/mapping.csv 2> /dev/null
+Rscript scripts/calculate_consensus_network.R results/raw_networks.csv results/mapping.csv $REFERENCE_ALIGNMENT 2> /dev/null
 if [ $? -eq 0 ]; then 
 	printf 'consensus network written to file.\n'
 else

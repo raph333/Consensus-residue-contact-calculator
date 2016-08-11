@@ -18,7 +18,8 @@ The analysis at hand reads in the the following files:
 
 
 * consensus_network.csv (directory 'results'): This file is the main result of this software and lists all contacts. The residue numbers are provided as positions in the reference alignment (and PDB-positions of a given reference structure). The column 'conservation' specifies the fraction of all structures in the dataset which have a contact between the two residues. For instance, a value of 1 means that all structures in the dataset have a contact between the two residues.
-* reference alignment (directory 'data'): The reference alignment is provided by the user (in fasta format). The software uses it to identify structurally equivalent resiudes. This way, residue contacts can be compared across structures even though the residues may be named differently in different structures.
+
+(* reference alignment (directory 'data'): The reference alignment is provided by the user (in fasta format). The software uses it to identify structurally equivalent resiudes. This way, residue contacts can be compared across structures even though the residues may be named differently in different structures.)
 
 
 
