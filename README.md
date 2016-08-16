@@ -100,4 +100,4 @@ For instance, it is possible calculate the residue contact networks using anothe
 
 ## Who do I talk to?
 
-For questions regarding the usage of the software, bug-reports, suggestions or feedback please don't hesitate to write an e-mail to raphae1peer@gmail.com.
+For questions regarding the usage of the software, bug-reports, suggestions or feedback please don't hesitate to write an e-mail to raphael1peer@gmail.com.
