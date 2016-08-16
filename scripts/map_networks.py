@@ -89,12 +89,14 @@ def map_to_reference_structure(mapping_df, reference_struct):
     mapping_df = mapping_df.reset_index(drop=True)
     return mapping_df
 
-
+id2seq = SeqIO.to_dict(SeqIO.parse(args.reference_alignment, 'fasta'))
 mapping = pd.DataFrame(columns = ['pdb_id', 'resnum', 'pdb', 'alignment_pos',
                                   'aa'])
 for filename in os.listdir(args.processed_pdb_dir):
-    print filename
     pdbID = filename.split('.')[0]
+    if filename not in id2seq.keys():
+        print('%s: ignored - not in reference alignment' % pdbID)
+        continue
     parser = PDB.PDBParser()
     struct = parser.get_structure(pdbID, os.path.join(args.processed_pdb_dir,
                                                       filename))
@@ -107,6 +109,7 @@ for filename in os.listdir(args.processed_pdb_dir):
                                   'alignment_pos': alignment_ref_list[i],
                                   'aa': res_list[i].resname},
                                   ignore_index=True)
+    print('%s: mapped' % pdbID)
 
 mapping = map_to_reference_structure(mapping, args.reference_structure)
 
