@@ -76,7 +76,6 @@ def select_chain(filename, domain_of_int):
 #    print 'chains of interest: %s' % chains_of_interest
     if len(chains_of_interest) >= 1:
         return chains_of_interest[0]   # return first chain with domain of interest
-    print 'WARNING: No chain selected from %s.' % pdb_id
 # 4mit and 1u8z are not included in the chain_pfam file.
 # Hence no chains are selected
 
@@ -111,7 +110,7 @@ def remove_hydrogens(directory, filename):
 
 
 selected_chains = pd.DataFrame(columns = ['pdb_id', 'chain'])  # just for info
-print('PDB-ID\tchain selected for analysis')
+print('\nPDB-ID\tchain selected for analysis')
 for pdb_file in os.listdir(args.raw_pdb_dir):
     chain = select_chain(pdb_file, args.pfam_domain)
     print "%s\t%s" % (pdb_file, chain)

@@ -106,7 +106,7 @@ for filename in os.listdir(args.processed_pdb_dir):
         networks = nw  # initizalize big dataframe to store all networks
     else:
         networks = pd.concat([networks, nw])
-    print '%s: %s' % (filecounter, pdb_id)
+    print '(%s/%s) %s' % (filecounter, len(os.listdir(args.processed_pdb_dir)), pdb_id)
 
 
 # WRITE ALL NETWORKS TO FILE
