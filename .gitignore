@@ -1,5 +1,5 @@
 .Rhistory
 *.RData
-*pdb_files
+pdb_files
 
 
