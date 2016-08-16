@@ -4,12 +4,12 @@ AUTHOR: Raphael Peer, raphael1peer@gmail.com
 
 PURPOSE:
 1) The script tries to import all python modules required by the python scripts
-of the 'Consensus residuce contact calculator' and exits if one of the modules
+of the 'Consensus residue contact calculator' and exits if one of the modules
 is not installed.
 2) The script checks the validity of the input data provided by the user
 a) PDB-files
 b) reference alignment (in fasta format)
-c) csv-file from the SIFTS-database (which contains a list of pdb-IDs, chains
+c) csv-file from the SIFTS-database (which contains a list of PDB-IDs, chains
 and the respective Pfam domain)
 If a problem with the input data is encountered, the an error message is given
 and the script and exits.

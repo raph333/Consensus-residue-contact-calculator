@@ -7,15 +7,15 @@ Calculation of residue contact networks of all structures in the input-
 directory.
 
 OUTPUT:
-csv-file of residue contact networks of all iniput structures.
+csv-file of residue contact networks of all input structures.
 Each contact is given in the form 'PDB-ID,residue-A,residue-B'. For instance,
 '1g16,1,42' means, that in structure 1g16, residue 1 contacts residue 42.
-The residues numbers refere to the numbering in the PDB-file.
+The residues numbers refers to the numbering in the PDB-file.
 
 NOTE:
 A contact is defined if any two atoms of two residues are within a certain
 distance of each other. This value can be set as an optional argument. By
-default, the distnace cutoff is 5 Angstrom (note that no hydrogen atoms are
+default, the distance cutoff is 5 Angstrom (note that no hydrogen atoms are
 present in the input PDB-files).
 ------------------------------------------------------------------------------
 '''

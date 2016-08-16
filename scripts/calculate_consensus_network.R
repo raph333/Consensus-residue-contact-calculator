@@ -31,7 +31,7 @@
 # contact is present in only a single structure. A contact present in all structures of
 # the dataset has the value 1. The last two columns give the PDB-number of the equivalent
 # residues in the reference PDB-structure. (For instance, this information can be used
-# to visualize the higly conserved residue contacts ('conservation' 1 or close to 1) on
+# to visualize the highly conserved residue contacts ('conservation' 1 or close to 1) on
 # the reference structure.)
 # ------------------------------------------------------------------------------------------
 

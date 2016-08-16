@@ -12,9 +12,9 @@ alignment with a sequence-alignment tool, such as MUSCLE or ClustalW.
 
 INPUT:
 1) Directory with PDB-files:
-Ony PDB-files with exactly one chain are accepted. The reason for this is that
-the script was created to extract the seqeunces from the PDB-files used for
-residue conctact calculation. These PDB-files are pre-processed to have only
+Only PDB-files with exactly one chain are accepted. The reason for this is that
+the script was created to extract the sequences from the PDB-files used for
+residue contact calculation. These PDB-files are processed to have only
 one chain per file which contains the domain of interest (see README or
 docstring of 'process_pdb.py'). It is recommended to first execute the script 
 'process_pdb.py'. This script prepares 'raw' PDB-files for residue contact
@@ -24,10 +24,10 @@ Provide the path to this directory as first argument.
 
 NOTE:
 There are two ways of creating a reference alignment.
-1) Use structure alignment (e.g. with MUSTANG). Obviosly, the exact same
+1) Use structure alignment (e.g. with MUSTANG). Obviously, the exact same
 structures used for residue contact calculation have to be used for the
 structural alignment (i.e. pre-processed with 'process_pdb.py')
-2) Use sequence alignemnt (e.g. with MUSCLE or ClustalW). This script can be
+2) Use sequence alignment (e.g. with MUSCLE or ClustalW). This script can be
 used to extract the sequences from the PDB-files of interest. Then, the
 extracted sequences can be aligned to create the reference alignment.
 ------------------------------------------------------------------------------

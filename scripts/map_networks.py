@@ -32,8 +32,8 @@ needed, any random structure from the dataset can be defined as reference-
 structure and the column 'ref_pdb' in the results can simply be ignored.
 
 NOTE2:
-The datatype of the residue numbers in the output csv-file are provided as
-floats rather than integers as one would intiuitively expect. This is due to
+The data-type of the residue numbers in the output csv-file are provided as
+floats rather than integers as one would intuitively expect. This is due to
 the fact, that there is no 'NA' for integers in pandas. As 'NA'-values may
 (if there is no structurally equivalent residue in the reference structure),
 residue numbers cannot be converted to integers.
