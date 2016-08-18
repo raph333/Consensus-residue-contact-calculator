@@ -63,9 +63,20 @@ or read the next two sections.
 For simplicity, it is recommended to create a directory 'data' in the directory of the software (Consensus-residue-contact-calculator-x.x). As an example, see the directory 'test_data'. Make sure your data-directory has the following content:
 
 * **PDB-files**: Select protein structures of interest from a given protein family and download the corresponding PDB-files. Put them in a directory which contains no other files.
-* **reference alignment**: Create an alignment of all sequences of the structures to be analysed. This alignment is used by the software to identify structurally equivalent residues. Therefore, for proteins with low sequence similarity, it is recommended to use structural alignment (and get the sequence alignment form the structural alignment) rather than sequence alignment. However, most protein families have sufficient sequence similarity to use sequence alignment. Make sure the names in the alignment are the same as the names in the names of the PDB-files described above. Also make sure to use the same exact same sequences as in the PDB-structure. If a sequence in the alignment has residues not present in the structure or vice versa, the identification of structurally equivalent residues cross-referencing with other structures will be incorrect.
+* **reference alignment**: Create an alignment of all sequences of the structures to be analysed. This alignment is used by the software to identify structurally equivalent residues. Make sure the names in the alignment are the same as the names in the names of the PDB-files described above. Also make sure to use the same exact same sequences as in the PDB-structure. If a sequence in the alignment has residues not present in the structure or vice versa, the identification of structurally equivalent residues cross-referencing with other structures will be incorrect.
 If a structure has no corresponding sequence in the reference alignment, it is simply ignored in the calculation of the consensus network. While the lack of one or a few sequences in the reference alignment decreases the size of the dataset, it does not corrupt the output. The presence of additional sequences in the alignment (which do not correspond to a structure in the dataset) has no impact on the result.
 * **pdb_chain_pfam.csv**: You can simply use the file from the directory 'test_data' or download the latest version from SIFTS-database: from https://www.ebi.ac.uk/pdbe/docs/sifts/quick.html
+
+#### How to create a reference alignment
+
+The reference alignment is required in order to identify structurally equivalent residues across different protein structures. Two residues of different structures are referred to as structurally equivalent if superimposition of the two structures also superimposes the two residues.
+
+There are two ways of creating a reference alignment:
+
+1. Structure alignment (e.g. with MUSTANG). Obviously, the exact same structures used for residue contact calculation have to be used for the structural alignment. Therefore, it is recommended to first run 'process_pdb.py' on the downloaded 'raw' PDB-files and use the processed PDB-files for the structural alignment (as those same files are also used for residue contact calculation).
+2. Use sequence alignment (e.g. with MUSCLE or ClustalW). Again, the sequences have to be exactly the same as in the structures used for residue contact calculation. Use the script 'extract_sequences_from_structures.py' to obtain the sequences from the structures. Then, these sequences can be aligned with a standard tool such as MUSCLE or ClustalW to give the reference alignment.
+
+If the sequences are too diverse to be aligned in an unambiguous manner, it is recommended to use structure alignment instead as structure is more conserved than sequence. For highly similar sequences, structure and sequence alignment will give the same results. In these cases, simply choose the more convenient option.
 
 ## Usage
 
