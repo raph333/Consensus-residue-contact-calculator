@@ -47,7 +47,7 @@ unzip Consensus-residue-contact-calculator-x.x  # x.x being the current release 
 3. Test with example data:
 ```bash
 cd Consensus-residue-contact-calculator-x.x
-bash runall.sh test_data/raw_pdb_files test_data/ras_reference_alignment.fa 1g16 PF00071
+bash runall.sh test_data/raw_pdb_files test_data/ras_reference_alignment.fa test_data/pdb_chain_pfam.csv PF00071 1g16
 ```
 4. If the script has finished, inspect the folder 'results' to see what to expect from the analysis. In case of an error, please address follow the instructions provided by the error-message (e.g. install required software).  
 5. Start the script 'runall' with your own data.   
