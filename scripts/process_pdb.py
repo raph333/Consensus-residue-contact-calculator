@@ -36,13 +36,20 @@ parser = argparse.ArgumentParser()
 parser.add_argument('raw_pdb_dir', help='directory with raw (unprocessed) '
                     'PDB-structures')
 parser.add_argument('pfam_domain', help='Pfam domain of interest. Important '
-                    'for the program to know which chains to analyse in '
-                    'case of complex structures.')
-parser.add_argument('sifts_chain_pfam', help='SIFTS-file "pdb_chain_pfam.csv" for '
-                    'finding chains withing the PDB-structures which contain '
-                    'the Pfam-domain of interest')
-parser.add_argument('processed_pdb_dir', help='Name of the output directory for the '
+                    'for the program to know which chain to analyse in '
+                    'case of multiple chains (e.g. complex structures).')
+parser.add_argument('sifts_chain_pfam', help='SIFTS-file "pdb_chain_pfam.csv" '
+                    'for finding chains in the PDB-structures which '
+                    'contain the Pfam-domain of interest')
+parser.add_argument('--output_directory', nargs='?',type=str,
+                    const='processed_pdb_files', default='processed_pdb_files',
+                    help='Name of the output directory for the '
                     'processed PDB-files.')
+parser.add_argument('--log_file', nargs='?',type=str,
+#                    const='selected_chains_info.csv',
+#                    default='selected_chains_info.csv',
+                    help='Name of a log-file specifying, for each PDB-file, '
+                    'which chain was selected for analysis.')
 try:
     args = parser.parse_args()
 except:
@@ -52,13 +59,13 @@ chain_pfam = pd.read_csv(args.sifts_chain_pfam, comment='#')
 
 
 # CHECK IF OUPUT DIRECTORY EXISTS
-if not os.path.exists(args.processed_pdb_dir):
-    os.makedirs(args.processed_pdb_dir)
-elif len(os.listdir(args.processed_pdb_dir)) > 0:
-    print 'Directory %s is not empty.' % args.processed_pdb_dir
+if not os.path.exists(args.output_directory):
+    os.makedirs(args.output_directory)
+elif len(os.listdir(args.output_directory)) > 0:
+    print 'Directory %s is not empty.' % args.output_directory
     user_input =  raw_input('Do you want to delete its content?\n(y for yes) ')
     if user_input == 'y':
-        os.system('rm -f %s/*' % args.processed_pdb_dir)
+        os.system('rm -f %s/*' % args.output_directory)
     else:
         print('Please make sure the directory is empty or provide a different '
             'name for the output directory. Then restart script.')
@@ -118,14 +125,15 @@ for pdb_file in os.listdir(args.raw_pdb_dir):
         selected_chains = selected_chains.append({'pdb_id': pdb_file.split('.')[0],
                                                   'chain': chain},
                                                   ignore_index = True)
-        extract_chain(args.raw_pdb_dir, pdb_file, chain, args.processed_pdb_dir)
-        clean(args.processed_pdb_dir, pdb_file)
-        remove_hydrogens(args.processed_pdb_dir, pdb_file)
+        extract_chain(args.raw_pdb_dir, pdb_file, chain, args.output_directory)
+        clean(args.output_directory, pdb_file)
+        remove_hydrogens(args.output_directory, pdb_file)
 
-selected_chains.to_csv('results/selected_chains_info.csv', index=False)
+if args.log_file is not None:
+    selected_chains.to_csv(args.log_file, index=False)
 
 print '\nOut of %s raw PDB-files, for %s PDB-files, a chain with the Pfam \
 domain of interst could be extracted and written to a new file in the \
 directory %s' % (len(os.listdir(args.raw_pdb_dir)), len(selected_chains),
-                 args.processed_pdb_dir)
+                 args.output_directory)
    

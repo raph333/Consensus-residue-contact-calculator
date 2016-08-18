@@ -33,12 +33,17 @@ from Bio import PDB
 
 parser = argparse.ArgumentParser()
 parser.add_argument('processed_pdb_dir', help='directory with processed '
-                    'PDB-structures for calculation of residue contact network')
-parser.add_argument('cutoff', nargs='?',type=int, const=5, default=5,
+                    'PDB-structures for calculation of residue contact '
+                    'networks')
+parser.add_argument('--cutoff', nargs='?',type=int, const=5, default=5,
                     help='Any two residues which have at least one pair of '
                     'atoms within this distance are considered to make a '
                     'contact. If no argument is provided, the default value '
                     'of 5 Angstrom is used.')
+parser.add_argument('--output_file', nargs='?',type=str,
+                    const='raw_networks.csv', default='raw_networks.csv',
+                    help='Name of the output csv-file (containing residue '
+                    'contact networks).')
 try:
     args = parser.parse_args()
 except:
@@ -112,7 +117,7 @@ for filename in os.listdir(args.processed_pdb_dir):
 # WRITE ALL NETWORKS TO FILE
 networks = networks[['pdb_id', 'res_A', 'res_B']]
 networks = networks.sort_index(by=['pdb_id', 'res_A', 'res_B'])
-networks.to_csv('results/raw_networks.csv', index=False)
+networks.to_csv(args.output_file, index=False)
 
 print "Number of residue contact networks calcuated: %s" % filecounter
 #end =  time.time()

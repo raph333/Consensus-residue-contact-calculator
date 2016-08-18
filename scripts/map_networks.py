@@ -59,6 +59,10 @@ parser.add_argument('reference_structure', help='For all residues, the '
                     'equivalent residues (PDB-numbering) of the reference '
                     'structure will be provided. Just provide the PDB-ID of '
                     'your favourite structure of the dataset')
+parser.add_argument('--output_file', nargs='?',type=str,
+                    const='mapping.csv', default='mapping.csv',
+                    help='Name of the output csv-file (containing residue '
+                    'number mapping).')
 try:
     args = parser.parse_args()
 except:
@@ -114,5 +118,5 @@ for filename in os.listdir(args.processed_pdb_dir):
 mapping = map_to_reference_structure(mapping, args.reference_structure)
 
 # WRITE MAPPING FILE
-mapping.to_csv('results/mapping.csv', index=False)
+mapping.to_csv(args.output_file, index=False)
 
