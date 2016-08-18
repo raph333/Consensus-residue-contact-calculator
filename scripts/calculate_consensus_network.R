@@ -26,13 +26,13 @@
 # 2) MAIN RESULT: consensus network scv-file: The file provides two alignment positions
 # if at least one structure has a contact between the two residues. The number of
 # structures which have an equivalent residue contact is given in the column 'contact_num'.
-# The column 'conservation' gives the fraction of the number of structure which have a
-# contact over the total number of structures in the dataset. The value is very small the
-# contact is present in only a single structure. A contact present in all structures of
-# the dataset has the value 1. The last two columns give the PDB-number of the equivalent
-# residues in the reference PDB-structure. (For instance, this information can be used
-# to visualize the highly conserved residue contacts ('conservation' 1 or close to 1) on
-# the reference structure.)
+# The column 'conservation' divides the previous column by the total number of structures 
+# in the dataset. Thus, 'conservation' shows the fraction of structures that have a 
+# contact between two given residues.  The value is very small the contact is only present
+# in a single structure. A contact present in all structures of the dataset has the value 1.
+# The last two column gives the PDB-number of the equivalent residues in the reference
+# PDB-structure. (For instance, this information can be used to visualize the highly
+# conserved residue contacts ('conservation' 1 or close to 1) on the reference structure.)
 # ------------------------------------------------------------------------------------------
 
 # READ INPUT:
