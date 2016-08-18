@@ -67,7 +67,7 @@ For simplicity, it is recommended to create a directory 'data' in the directory 
 If a structure has no corresponding sequence in the reference alignment, it is simply ignored in the calculation of the consensus network. While the lack of one or a few sequences in the reference alignment decreases the size of the dataset, it does not corrupt the output. The presence of additional sequences in the alignment (which do not correspond to a structure in the dataset) has no impact on the result.
 * **pdb_chain_pfam.csv**: You can simply use the file from the directory 'test_data' or download the latest version from SIFTS-database: from https://www.ebi.ac.uk/pdbe/docs/sifts/quick.html
 
-#### How to create a reference alignment
+### How to create a reference alignment
 
 The reference alignment is required in order to identify structurally equivalent residues across different protein structures. Two residues of different structures are referred to as structurally equivalent if superimposition of the two structures also superimposes the two residues.
 
@@ -96,6 +96,25 @@ bash runall.sh path/to/pdb_files_directory path/to/reference_alignment.fa path/t
 ```
 
 Note: Two residues are considered to form a contact if any two atoms (excluding hydrogen atoms) are within 5 Angstrom of each other. This distance cutuff is defined in the script runall.sh. However, you can easily set the cutoff according to your preferences (the relevant line in the script is highlighted by a comment in capital letters).
+
+## Results
+
+The script runall.sh creates a directory 'results'. All intermediate and final results are saved in this directory.
+
+### Final results:
+
+* **mapped_networks.csv**: All residue contact networks of all input protein structure are saved in this file. In addition to the PDB-residue numbers, reference alignment position are provided for all residues. Moreover, the structurally equivalent residues in the reference PDB-structure are also provided.
+* **consensus-network.csv** (main result): The file provides two alignment positions if at least one structure has a contact between the two residues. The number of structures which have an equivalent residue contact is given in the column 'contact_num'. The column 'conservation' divides the previous column by the total number of structures in the dataset. Thus, 'conservation' shows the fraction of structures that have a contact between two given residues. The value is very small the contact is only present in a single structure. A contact present in all structures of the dataset has the value 1. The last two column gives the PDB-number of the equivalent residues in the reference PDB-structure. (For instance, this information can be used to visualize the highly conserved residue contacts ('conservation' 1 or close to 1) on the reference structure.)
+* **report** (analysis.HTML, analysis.PDF): An automatically created report is provided in both HTML (the images are in the folder 'figure') and PDF format. The report allows to quickly check the success of the analysis and explains the results. Moreover, the script 'analysis.Rmd' can serve as a convenient starting point for further analysis.
+
+### Intermediate results (not important unless you modify the software):
+
+* processed_pdb_files: Directory with processed pdb-files (only one chain per file, no heteroatoms, no hydrogen atoms etc.). See docstring of script process_pdb.py for more information.
+* selected_chains_info.csv: Log file which specifies which chain has been selected for analysis from each PDB-file.
+* raw_networks.csv: File containing all residue contact networks. See docstring of calculate_networks.py for more information.
+* mapping.csv: File for cross-referencing PDB-residue-numbers and alignment positions in all structures. See docstring of map_networks.py for more information.
+* analysis.md: Markdown-file for automatic creation of an HTML-report.
+
 
 ## Runtime
 
