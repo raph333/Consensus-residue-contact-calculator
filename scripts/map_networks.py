@@ -56,9 +56,9 @@ parser.add_argument('reference_alignment', help='Alignment of the sequences '
                     'were created. See the documentation for information '
                     'about the requirements of such an alignment')
 parser.add_argument('reference_structure', help='For all residues, the '
-                    'equivalent residues (PDB-numbering) of the reference '
+                    'equivalent residues (PDB-numbering) in the reference '
                     'structure will be provided. Just provide the PDB-ID of '
-                    'your favourite structure of the dataset')
+                    'your favourite structure of the dataset.')
 try:
     args = parser.parse_args()
 except:
@@ -82,7 +82,8 @@ def map_to_reference_structure(mapping_df, reference_struct):
     '''IN: pandas dataframe of all structures mapped to alingment position,
            reference structure (included in the dataframe)
     OUT: same dataframe with added columns: reference structure position'''
-    ref_df = mapping_df[mapping_df.pdb_id == reference_struct][['pdb', 'alignment_pos']]
+    ref_df = mapping_df[mapping_df.pdb_id == reference_struct][['pdb',
+        'alignment_pos']]
     ref_df.columns = ['ref_pdb', 'alignment_pos']
     mapping_df = pd.merge(mapping_df, ref_df, on='alignment_pos', how='left')
     mapping_df = mapping_df.sort_index(by=['pdb_id', 'resnum'])

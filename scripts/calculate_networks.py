@@ -32,9 +32,10 @@ from Bio import PDB
 #start =  time.time()
 
 parser = argparse.ArgumentParser()
-parser.add_argument('processed_pdb_dir', help='directory with processed '
-                    'PDB-structures for calculation of residue contact network')
-parser.add_argument('cutoff', nargs='?',type=int, const=5, default=5,
+parser.add_argument('processed_pdb_dir', help='Directory with processed '
+                    'PDB-structures for calculation of residue contact '
+                    'networks')
+parser.add_argument('cutoff', nargs='?',type=int, default=5,
                     help='Any two residues which have at least one pair of '
                     'atoms within this distance are considered to make a '
                     'contact. If no argument is provided, the default value '
@@ -62,7 +63,8 @@ def min_atomic_distance(resA, resB):
 def residue_distance_matrix(directory, filename):
     '''IN: input directory and pdb-filename
     OUT: 2D numpy array of inter-residue distances (NA = large distance)'''        
-    struct = PDB.PDBParser().get_structure(filename, os.path.join(directory, filename))
+    struct = PDB.PDBParser().get_structure(filename, os.path.join(directory,
+        filename))
     res_list = list(struct.get_residues())
     dist_matrix = np.zeros((len(res_list), len(res_list)), dtype=('f4'))
     dist_matrix[:] = np.nan
@@ -71,7 +73,8 @@ def residue_distance_matrix(directory, filename):
             try:
                 CA_dist = res_list[i]['CA'] - res_list[j]['CA']
                 if CA_dist <= 15:
-                    atomic_distance = min_atomic_distance(res_list[i], res_list[j])
+                    atomic_distance = min_atomic_distance(res_list[i],
+                                                          res_list[j])
                     dist_matrix[i,j] = atomic_distance
                 # if the CA-CA distance is above 15A, don't calculate the
                 # any to any atom distances: reduces runtime to 1/3
@@ -99,14 +102,16 @@ for filename in os.listdir(args.processed_pdb_dir):
 #        continue  # ignore non-PDB files
     pdb_id = filename.split('.')[0]
     distance_matrix = residue_distance_matrix(args.processed_pdb_dir, filename)
-    contact_matrix = (distance_matrix < args.cutoff) & (distance_matrix > 0).astype(int)
+    contact_matrix = ((distance_matrix < args.cutoff) & \
+        (distance_matrix > 0).astype(int))
     nw = matrix_to_dataframe(contact_matrix, pdb_id)
     filecounter += 1
     if filecounter == 1:
         networks = nw  # initizalize big dataframe to store all networks
     else:
         networks = pd.concat([networks, nw])
-    print '(%s/%s) %s' % (filecounter, len(os.listdir(args.processed_pdb_dir)), pdb_id)
+    print('(%s/%s) %s' % (filecounter, len(os.listdir(args.processed_pdb_dir)),
+            pdb_id))
 
 
 # WRITE ALL NETWORKS TO FILE
