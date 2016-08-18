@@ -121,7 +121,7 @@ The script runall.sh creates a directory 'results'. All intermediate and final r
 The runtime increases linearly with the number of protein structures in the dataset. The runtime of the entire analysis can be expected to be about three minutes for every 50 protein structures in the dataset. For large protein structures (more than 200 amino acids per relevant chain), the runtime will be longer.
 
 
-## Can I only use parts of the software?
+## Can I use only parts of the software?
 
 Yes. The software consists of several python and R scripts which conduct separate tasks. All these scripts are executed consecutively by the bash script 'runall.sh' for the user's convenience. However, the scripts can also be used individually. The purpose and input requirements of each script is explained in comments therein.
 
